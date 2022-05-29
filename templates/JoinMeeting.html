@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Login.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/JoinMeeting.css')}}">
+    <link rel="icon" href="{{ url_for('static', filename='images/logo.png')}}" type="image/gif" />
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <title>PROCXAM</title>
+</head>
+<body>
+    <nav id="navbar" class="nav_bar">
+        <div class="logo">
+            <a href="/" class="web_name">PROCXAM</a>
+        </div>
+      </nav>
+    </div>
+    <div id="face_verf" class="face_verf">
+        <h11>MARK YOUR ATTENDANCE</h11>
+        <div class="facereg">
+            <div id="face_container">
+                <video autoplay="true" id="Video_Element"></video>
+            </div>
+            <input id="txt" type="text" class="status" value="STATUS" readonly>
+            <div class="control">
+                <button id="snap" class="reg_btnn">JOIN MEETING</button>
+            </div>
+            <canvas id="canvas" width="20" height="50"></canvas>
+        </div>
+    </div>
+    <script>
+        "use strict";
+        var video = document.querySelector("#Video_Element");
+        const canvas = document.getElementById("canvas");
+        const button = document.getElementById("snap");
+        const context = canvas.getContext("2d");
+        const result = document.getElementById("txt");
+        const img = document.getElementById("pic");
+        var Username = document.getElementById("Usern");
+        var Pass = document.getElementById("pass");
+        const stat = document.getElementById("txt1");
+
+        if (navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (stream) {
+            video.srcObject = stream;
+            })
+            .catch(function (err0r) {
+            console.log("Something went wrong!");
+            });
+        }
+
+        canvas.width = 680;
+        canvas.height = 480;
+
+        button.addEventListener("click", () => {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            $.post("http://127.0.0.1:5000/markattendance",
+            {
+                content: canvas.toDataURL("image/png").split(",")[1]
+            },function(data){
+                result.value = data;
+                if(result.value != "User cannot be indentified. Try Again!")
+                {
+                    setInterval(() => {
+                        window.location = "/meet";
+                    }, 2000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

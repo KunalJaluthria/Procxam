@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}">
+    <link rel="icon" href="{{ url_for('static', filename='images/logo.png')}}" type="image/gif" />
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="{{ url_for('static', filename='js/Project.js')}}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <title>PROCXAM</title>
+</head>
+
+<body>
+    <nav id="navbar">
+        <div class="logo">
+            <a href="/" class="web_name">PROCXAM</a>
+        </div>
+        <input type="checkbox" id="click">
+        <label for="click" class="menu-btn">
+          <i class="fas fa-bars"></i>
+        </label>
+        <ul>
+          <li><a class="active" href="/">Home</a></li>
+          <li><a href="#gs">Get Started</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+          <li><a id="loginn" href="/Log_Reg">Login/Register</a></li>
+          <li><a id="log_out" class="nouser" href="/Logout">Logout</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="blank"></div>
+    <div class="pic">
+        <div class="image" id="LensId">
+            <a href="/"><img class="img" src="{{ url_for('static', filename='images/lens.png')}}" alt="#"></a>
+        </div>
+    </div>
+    <div class="intro" id="intro">
+        <div class="intro_1">
+            <div class="intro_2">
+                <h7 class="heading">What is Procxam?</h7>
+                <div class="par">
+                    <p class="intro_para">Procxam is a face-recognition-based website for managing and tracking attendance, preventing the proxy in online tests and meetings. It helps teachers to conduct online tests and meetings more efficiently and securely. It uses face recognition technology to verify the student's authenticity by capturing real-time images and checking the record.</p>
+                </div>
+            </div>
+        </div>
+        <div class="intro_1">
+            <a><img class="img" src="{{ url_for('static', filename='images/Intro.png')}}" alt="#"></a>
+        </div>
+    </div>
+    <section class="main_body" id="gs">
+        <h1 data-aos="fade-up" data-aos-duration="2000" class="heading">Get Started</h1>
+        <div class="test">
+            <div class="box">
+                <div data-aos="fade-up" data-aos-duration="2500" class="info-box">
+                    <h2>HOST A TEST</h1>
+                    <p2>This feature gives users access to host tests on the Procxam platform, which helps maintain the test integrity and make it more secure through our face recognition technology while assuring that the students experience is exceptional at each step.</p2>
+                    <button id="host_test" class="mybtn" onclick="location.href='/CreateTest'" disabled="disabled">CREATE A NEW TEST</button>
+                </div>
+            </div>
+            <div class="box-img">
+                <a><img class="img" src="{{ url_for('static', filename='images/pic1.png')}}" alt="#"></a>
+            </div>
+        </div>
+        <div class="test">
+            <div class="box-img">
+                <a><img class="img" src="{{ url_for('static', filename='images/pic2.png')}}" alt="#"></a>
+            </div>
+            <div class="box">
+                <div data-aos="fade-up" data-aos-duration="2500" class="info-box">
+                    <h2>HOST A MEETING</h1>
+                    <p2>This feature gives users access to conduct online meetings securely. It maintains the decorum and integrity of the meeting by creating an environment where communication is accessible, and all invitees feel included and safe to speak.</p2>
+                    <button id="host_meet" class="mybtn" onclick="location.href='/meet'" disabled="disabled">START MEETING</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="contact_us" id="contact">
+        <h2 class="heading" id="h2">Contact Us</h2>
+        <div class="C1">
+            <a><img class="img" src="{{ url_for('static', filename='images/Contact_Us.png')}}" alt="#"></a>
+        </div>
+        <div class="C1">
+            <div class="C1_para">
+                <p1 class="p1">If you have any doubts related to Procxam, feel free to email us at @Procxam.com</p1>
+                <div class="icon">
+                    <ul class="social_icon">
+                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-google" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                     </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="extra_h">
+            <h3 class="h3">PROCXAM 2022</h3>
+        </div>
+        <div class="extra_p">
+            <p3 class="p3">Privacy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Terms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FAQ'S</p3>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/Project.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+.face_verf
+{
+    position: absolute;
+    width: 650px;
+    height: 520px;
+    padding: 15px 40px;
+    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    /* background-color: rgba(0, 0, 0, 0.9); */
+    transform: translate(-50%, -50%);
+    top: 55%;
+    left: 50%;
+    text-align: center;
+    transition: 0.5s;
+}
+
+#face_container
+{
+    margin: 10px auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    width: 500px;
+    height: 340px;
+    border: 5px #f1f1f2 solid;
+}
+
+#Video_Element
+{
+    width: 490px;
+    height: 330px;
+    background-color: #c9c9c9;
+}
+
+h11
+{
+    color: #1995AD;
+    font-size: 30px;
+    font-weight: bold;
+    padding-bottom: 12px;
+}

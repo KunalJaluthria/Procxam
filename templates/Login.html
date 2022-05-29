@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Login.css')}}">
+    <link rel="icon" href="{{ url_for('static', filename='images/logo.png')}}" type="image/gif" />
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <script src="{{ url_for('static', filename='js/Project.js')}}"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <title>PROCXAM</title>
+</head>
+<body>
+    <nav id="navbar" class="nav_bar">
+        <div class="logo">
+            <a href="/" class="web_name">PROCXAM</a>
+        </div>
+      </nav>
+    </div>
+    <div class="login">
+        <h1>Log-In</h1>
+        <h2>Username</h2>
+        <div class="input-group">
+            <input type="text" id="Usern" placeholder=" " name="username"/>
+            <label for="Usern">Username</label>
+        </div>
+        <h3>Password</h3>
+        <div class="input-group">
+            <input type="text" id="pass" placeholder=" " name="password"/>
+            <label for="pass">Password</label>
+        </div>
+        <p class="imp">* Important: For logging in, Face Id Verification is mandatory.</p>
+        <div class="control">
+            <button id="Face_id" class="faceidbtn" onclick="display_func()">FACE ID VERIFICATION</button>
+        </div>
+        <div class="control">
+            <button id="log_in" class="loginbtn" disabled="disabled">LOGIN</button>
+        </div>
+        <canvas id="canvas" width="20" height="50"></canvas>
+        <div class="message">
+            <input id="txt1" type="text" class="stat" readonly>
+        </div>
+    </div>
+    <div id="popup" class="popup">
+        <div class="facereg">
+            <div id="container">
+                <video autoplay="true" id="videoElement"></video>
+            </div>
+            <input id="txt" type="text" class="status" value="STATUS" readonly>
+            <div class="control">
+                <button id="snap" class="reg_btnn">TAKE SNAPSHOT</button>
+            </div>
+            <div class="control">
+                <button id="close" class="reg_btnn" onclick="Close()">GO BACK</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        "use strict";
+        var video = document.querySelector("#videoElement");
+        const canvas = document.getElementById("canvas");
+        const button = document.getElementById("snap");
+        const loginbtn = document.getElementById("log_in");
+        const context = canvas.getContext("2d");
+        const result = document.getElementById("txt");
+        const img = document.getElementById("pic");
+        var Username = document.getElementById("Usern");
+        var Pass = document.getElementById("pass");
+        const stat = document.getElementById("txt1");
+
+        if (navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (stream) {
+            video.srcObject = stream;
+            })
+            .catch(function (err0r) {
+            console.log("Something went wrong!");
+            });
+        }
+
+        canvas.width = 680;
+        canvas.height = 480;
+
+        loginbtn.addEventListener("click", () => {
+            $.post("http://127.0.0.1:5000/UserCheck",
+            {
+                username: Username.value,
+                password: Pass.value
+            },function(data){
+                stat.value = data;
+                if(stat.value == "Logged In Successfully!")
+                {
+                    setInterval(() => {
+                        window.location = "/";
+                    }, 2000);
+                }
+            });
+        });
+
+        button.addEventListener("click", () => {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            $.post("http://127.0.0.1:5000/faceidverf",
+            {
+                content: canvas.toDataURL("image/png").split(",")[1],
+                username: Username.value,
+                pass: Pass.value
+            },
+            function(data,status){
+                result.value = data;
+                if(result.value != "STATUS" && result.value != "Snapshot not received" && result.value != "Entered username doesn't match" && result.value != "Input field is empty!" && result.value != "Face cannot be indentified" && result.value != "User record not found")
+                {
+                    log_in.removeAttribute('disabled');
+                    log_in.classList.add('disable');
+                }
+                else
+                {
+                    log_in.setAttribute('disabled', 'disabled');
+                    log_in.classList.add('disable');
+                }
+            });
+        });
+
+        function display_func()
+        {
+            document.querySelector('.popup').style.display = 'block';
+        }
+
+        function Close()
+        {
+            document.querySelector('.popup').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

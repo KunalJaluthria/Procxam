@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Login.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/CreateTest.css')}}">
+    <link rel="icon" href="{{ url_for('static', filename='images/logo.png')}}" type="image/gif" />
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <script src="{{ url_for('static', filename='js/Project.js')}}"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <title>PROCXAM</title>
+</head>
+<body>
+    <nav id="navbar" class="nav_bar">
+        <div class="logo">
+            <a href="/" class="web_name">PROCXAM</a>
+        </div>
+      </nav>
+    </div>
+    <div class="create">
+        <h8>GENERATE TEST LINK</h8>
+        <div class="input-grp">
+            <input type="text" id="name" placeholder=" " name="name"/>
+            <label for="name">Assessment Name</label>
+        </div>
+        <div class="input-grp">
+            <input type="text" id="Tname" placeholder=" " name="Tname"/>
+            <label for="Tname">Teacher's Name</label>
+        </div>
+        <div class="input-grp">
+            <input type="text" id="Subject" placeholder=" " name="subject"/>
+            <label for="Subject">Subject</label>
+        </div>
+        <div class="input-grp">
+            <input type="text" id="Gformlink" placeholder=" " name="linkk"/>
+            <label for="Gformlink">Google Form Link</label>
+        </div>
+        <div class="control">
+            <button id="genlink" class="linkgenbtn" onclick="Gen_link()">GENERATE LINK</button>
+        </div>
+        <div class="input-grp">
+            <input type="text" id="generatelink" placeholder=" " name="genlink" value="Generated Link" readonly/>
+        </div>
+        <div class="control">
+            <button id="copytext" class="linkgenbtn" onclick="Copy_func()">COPY LINK</button>
+        </div>
+    </div>
+    <script>
+        var test = document.getElementById("name");
+        var teacher = document.getElementById("Tname");
+        var Subj = document.getElementById("Subject");
+        var Formlink = document.getElementById("Gformlink");
+        var Pagelink = document.getElementById("generatelink");
+
+        function Gen_link() {
+            if(test.value != "" && teacher.value != "" && Subj.value != "" && Formlink.value != "")
+            {
+                var short = Formlink.value;
+                short = short.slice(0, -11);
+
+                var embpage = short+"embedded=true";
+
+                $.post("http://127.0.0.1:5000/SaveLink",
+                {
+                    Aname: test.value,
+                    tname: teacher.value,
+                    subject: Subj.value,
+                    formlink: embpage
+                },
+                function(data){
+                    var msg = data;
+                    if(msg != "Link already exists!")
+                    {
+                        Pagelink.value = data;
+                        alert("Link generated successfully!");
+                    }
+                    else
+                    {
+                        alert(msg);
+                    }
+                });
+            }
+            else{
+                alert("Input field is empty. Enter all the details!");
+            }
+        }
+
+        function Copy_func() {
+            var copyText = document.getElementById("generatelink");
+
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+
+            navigator.clipboard.writeText(copyText.value);
+
+            alert("Link Copied: " + copyText.value);
+        }
+    </script>
+</body>
+</html>

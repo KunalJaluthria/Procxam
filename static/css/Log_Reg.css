@@ -1,0 +1,52 @@
+.log_reg
+{
+    width: 100%;
+    background: #1995AD;
+    height: 90%;
+}
+
+.login
+{
+    position: relative;
+    background-color: #5faab9;
+    width: 50%;
+    float: left;
+    height: 570px;
+    background-size: cover;
+}
+
+.login .img
+{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.login:hover
+{
+    background-color: #98D7C2;
+    transition: 0.8s;
+}
+
+.register
+{
+    position: relative;
+    background: #498996;
+    width: 50%;
+    float: left;
+    height: 570px;
+    background-size: cover;
+}
+
+.register .img
+{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.register:hover
+{
+    background-color: #98D7C2;
+    transition: 0.8s;
+}

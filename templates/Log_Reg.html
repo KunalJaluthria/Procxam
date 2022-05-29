@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Log_Reg.css')}}">
+    <link rel="icon" href="{{ url_for('static', filename='images/logo.png')}}" type="image/gif" />
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <title>PROCXAM</title>
+</head>
+<body>
+    <nav id="navbar" class="navv">
+        <div class="logo">
+            <a href="/" class="web_name">PROCXAM</a>
+        </div>
+      </nav>
+    </div>
+    <div class="blank"></div>
+    <div class="pic">
+        <div class="image" id="LensId">
+            <a href="/"><img class="img" src="{{ url_for('static', filename='images/lens.png')}}" alt="#"></a>
+        </div>
+    </div>
+    <div class="log_reg" id="log_reg">
+        <div class="login">
+            <a href="/Login"><img class="img" src="{{ url_for('static', filename='images/Login.png')}}" alt="#"></a>
+        </div>
+        <div class="register">
+            <a href="/Register"><img class="img" src="{{ url_for('static', filename='images/Register.png')}}" alt="#"></a>
+        </div>
+    </div>
+</body>
+</html>

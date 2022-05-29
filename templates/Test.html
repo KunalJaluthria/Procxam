@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Test.css')}}">
+    <link rel="icon" href="{{ url_for('static', filename='images/logo.png')}}" type="image/gif" />
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="{{ url_for('static', filename='js/Project.js')}}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <title>PROCXAM</title>
+</head>
+
+<body>
+    <nav id="navbar">
+        <div class="logo">
+            <a href="/" class="web_name">PROCXAM</a>
+        </div>
+      </nav>
+    </div>
+    <div class="blank"></div>
+    <div class="pic">
+        <div class="image" id="LensId">
+            <a href="/"><img class="img" src="{{ url_for('static', filename='images/lens.png')}}" alt="#"></a>
+        </div>
+    </div>
+    <div class="check">
+        <div class="check1">
+            <div class="b1">FACE ID VERIFICATION</div>
+        </div>
+        <div class="h_line"></div>
+        <div class="check2">
+            <div class="ch1">
+                <div id="container">
+                    <video autoplay="true" id="videoElement"></video>
+                </div>
+                    <canvas id="canvas" width="640" height="480"></canvas>
+            </div>
+            <div class="ch2">
+                <p class="desc_para">Enter the registered Email Id.</p>
+                    <div class="input-group">
+                        <input type="text" id="text1" placeholder=" " name="email"/>
+                        <label for="text1">Email</label>
+                    </div>
+                <p class="desc_para">Click the "Take Snapshot" button below to start the Face recognition verification.</p>
+                <p class="imp">Important: Take Snapshot in proper lighting conditions. The verified name will be displayed at the "STATUS" section.</p>
+                <div class="control">
+                    <button id="snap" class="my_btn">TAKE SNAPSHOT</button>
+                </div>
+                <input id="txt" type="text" class="status" value="STATUS" readonly>
+                <div class="control">
+                    <button id="start" disabled="disabled" class="my_btn" onclick="display_func()">START THE TEST</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="new_main_body" id="exxam">
+        <h1 class="h1">All the Best!</h1>
+        <div class="exam">
+            <iframe class="formm" id="frame" src="" width="810" height="580" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+        </div>
+    </section>
+    <div class="T_footer">
+        <div class="T_extra_h">
+            <h3 class="h3">PROCCXAM 2022</h3>
+        </div>
+        <div class="T_extra_p">
+            <p3 class="p3">Privacy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Terms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FAQ'S</p3>
+        </div>
+    </div>
+    <script>
+        "use strict";
+        var video = document.querySelector("#videoElement");
+        const canvas = document.getElementById("canvas");
+        const button = document.getElementById("snap");
+        const context = canvas.getContext("2d");
+        const result = document.getElementById("txt");
+        const img = document.getElementById("pic");
+        var Email = document.getElementById("text1");
+
+        if (navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (stream) {
+            video.srcObject = stream;
+            })
+            .catch(function (err0r) {
+            console.log("Something went wrong!");
+            });
+        }
+        button.addEventListener("click", () => {
+            if(Email.value!="")
+            {
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                $.post("http://127.0.0.1:5000/api",
+                {
+                    content: canvas.toDataURL("image/png").split(",")[1],
+                    email: Email.value
+                },
+                function(data,status){
+                    result.value = data;
+                    if(result.value != "STATUS" && result.value != "Unknown" && result.value != "Face cannot be indentified")
+                    {
+                        start.removeAttribute('disabled');
+                    }
+                    else
+                    {
+                        start.setAttribute('disabled', 'disabled');
+                    }
+                });
+            }
+            else
+            {
+                alert("Please, Enter the Email Id!")
+            }
+        });
+
+        function geturl()
+        {
+            var pageurl = window.location.href
+            $.post("http://127.0.0.1:5000/geturl",
+            {
+                link: pageurl
+            },
+            function(data,status){
+                var url = data;
+                frame.src = url;
+            });
+        }
+
+        function Attendance_mark()
+        {
+            var pageurl = window.location.href;
+            var Id = pageurl.slice(27);
+            $.post("http://127.0.0.1:5000/mark_attendance",
+            {
+                name: result.value,
+                email: Email.value,
+                id: Id
+            },
+            function(data,status){
+                var msg = data;
+                alert(msg);
+            });
+        }
+
+        function display_func()
+        {
+            Attendance_mark();
+            geturl();
+            document.querySelector('.new_main_body').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

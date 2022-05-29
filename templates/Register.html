@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Login.css')}}">
+    <link rel="icon" href="{{ url_for('static', filename='images/logo.png')}}" type="image/gif" />
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <script src="{{ url_for('static', filename='js/Project.js')}}"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <title>PROCXAM</title>
+</head>
+<body>
+    <nav id="navbar" class="nav_bar">
+        <div class="logo">
+            <a href="/" class="web_name">PROCXAM</a>
+        </div>
+      </nav>
+    </div>
+    <div class="login">
+        <h5>Register</h5>
+        <h2>Username</h2>
+        <div class="input-group">
+            <input type="text" id="Usern" placeholder=" " name="username"/>
+            <label for="Usern">Username</label>
+        </div>
+        <h3>Password</h3>
+        <div class="input-group">
+            <input type="text" id="pass" placeholder=" " name="password"/>
+            <label for="pass">Password</label>
+        </div>
+        <h4>Confirm Password</h4>
+        <div class="input-group">
+            <input type="text" id="cnfp" placeholder=" " name="cnfpassword"/>
+            <label for="cnfp"> Confirm Password</label>
+        </div>
+        <div class="control">
+            <button id="faceregister" class="reg_btnn" onclick="display_func()">FACE ID REGISTRATION</button>
+        </div>
+        <div class="control">
+            <button id="register" disabled="disabled" class="reg_btn">REGISTER</button>
+        </div>
+        <canvas id="canvas" width="20" height="50"></canvas>
+        <div class="message">
+            <input id="txt1" type="text" class="stat" readonly>
+        </div>
+    </div>
+    <div id="popup" class="popup">
+        <div class="facereg">
+            <div id="container">
+                <video autoplay="true" id="videoElement"></video>
+            </div>
+            <input id="txt" type="text" class="status" value="STATUS" readonly>
+            <div class="control">
+                <button id="snap" class="reg_btnn">TAKE SNAPSHOT</button>
+            </div>
+            <div class="control">
+                <button id="close" class="reg_btnn" onclick="Close()">GO BACK</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        "use strict";
+        var video = document.querySelector("#videoElement");
+        const canvas = document.getElementById("canvas");
+        const button = document.getElementById("snap");
+        const regbtn = document.getElementById("register");
+        const context = canvas.getContext("2d");
+        const result = document.getElementById("txt");
+        const stat = document.getElementById("txt1");
+        const img = document.getElementById("pic");
+        var User = document.getElementById("Usern");
+        var Pass = document.getElementById("pass");
+        var CnfPass = document.getElementById("cnfp");
+
+        if (navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (stream) {
+            video.srcObject = stream;
+            })
+            .catch(function (err0r) {
+            console.log("Something went wrong!");
+            });
+        }
+
+        canvas.width = 680;
+        canvas.height = 480;
+
+        regbtn.addEventListener("click", () => {
+            $.post("http://127.0.0.1:5000/Register",
+            {
+                usern: User.value,
+                pass: Pass.value,
+                cnfPass: CnfPass.value
+            },
+            function(data){
+                stat.value = data;
+                if(stat.value == "Registration is Successfull!" || stat.value == "User is already registered!")
+                {
+                    setInterval(() => {
+                        window.location = "/Login";
+                    }, 2000);
+                }
+            });
+        });
+
+        button.addEventListener("click", () => {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            $.post("http://127.0.0.1:5000/snap",
+            {
+                content: canvas.toDataURL("image/png").split(",")[1],
+                username: User.value,
+                password: Pass.value,
+                cnfPassword: CnfPass.value
+            },
+            function(data,status){
+                result.value = data;
+                if(result.value != "STATUS" && result.value != "Snapshot not received" && result.value != "Passwords doesn't match! Try Again" && result.value != "Input field is empty!" && result.value != "User is already registered!" && result.value!="Face Id registered with another account!" && result.value!="Face cannot be detected!")
+                {
+                    register.removeAttribute('disabled');
+                    register.classList.add('disable');
+                }
+                else
+                {
+                    register.setAttribute('disabled', 'disabled');
+                    register.classList.remove('disable');
+                }
+            });
+        });
+
+        function display_func()
+        {
+            document.querySelector('.popup').style.display = 'block';
+        }
+
+        function Close()
+        {
+            document.querySelector('.popup').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
