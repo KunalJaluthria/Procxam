@@ -88,6 +88,8 @@ $ .\env\Scripts\activate.ps1
 Once installation setup is complete and the server starts running, use http://127.0.0.1:5000 to visit the Procxam website.
 ## Additional Information
 
+The website is also compatible with the mobile device view.
+
 Demo Google form link for generating the test link for hosting a test(To be pasted in Google form link textbox): https://docs.google.com/forms/d/e/1FAIpQLSdJpZeGXbOUQjLCZ62YHGw4kshz6xnqMrqx4Hi03uAILdOglg/viewform?usp=sf_link
 
 For viewing the tables, attributes, and records in the SQLite database. Use this link,
